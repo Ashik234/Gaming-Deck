@@ -1,0 +1,37 @@
+<%- include('../layouts/user/header.ejs') %>
+<%- include('../layouts/user/navbar.ejs') %> 
+
+<div class="container mt-5 mb-5">
+    <div class="card p-4">
+      <h2 class="mb-4">Edit Profile</h2>
+      <form action="" method="post">
+        <style>
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        </style>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="string" id="name" name="name" class="form-control"
+          value="<%= userData.firstname %>">
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile:</label>
+          <input type="number" id="mobile" name="mobileNumber" class="form-control"
+          value="<%= userData.mobilenumber %>">
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" class="form-control"
+          value="<%= userData.email %>" >
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+  
+
+
+<%- include('../layouts/user/footer.ejs') %>

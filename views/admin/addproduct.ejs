@@ -1,0 +1,106 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+    <h2>Add Product</h2>
+    <p>Products | Add Products</p>
+  <form action="" method="post" enctype="multipart/form-data">
+    <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    </style>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Product Name</label>
+      <input type="string" name="productname" class="form-control" id="exampleInputEmail1">
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Image</label>
+      <input multiple type="file" name="image" class="form-control" id="image-input">
+      <br>
+      <div  id="image-preview"></div>
+    </div>
+    <style>
+      #image-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      }
+
+    </style>
+    <div class="form-group mt-3">
+      <label for="">Category</label>
+      <select name="category" class="form-control" type="text">
+      <option>Select Category</option>
+      <% categorydata.forEach((element,index) => {%>
+      <option value="<%= element._id %>"><%= element.category %></option>      
+      <% }) %>
+      </select>
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Description</label>
+      <input type="string" name="description" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Stock</label>
+      <input type="number" name="stock" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Price</label>
+      <input type="number" name="price" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Offer Price</label>
+      <input type="number" name="offerprice" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group mt-3">
+      <label for="">Brand</label>
+      <select name="brand" class="form-control" type="text">
+        <option>Select Brand</option>
+        <% branddata.forEach((element,index) => {%>
+        <option value="<%= element._id %>"><%= element.brand %></option>      
+        <% }) %>
+        </select>
+    </div>
+    <% if(typeof message!=="undefined"){%>
+      <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+    <%}%>
+    <button  type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</main>
+
+<script>
+  function previewImages() {
+    var preview = document.querySelector('#image-preview');
+    var files   = document.querySelector('#image-input').files;
+
+    function readAndPreview(file) {
+
+      // Make sure `file.name` matches our extensions criteria
+      if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+          var image = new Image();
+          image.height = 100;
+          image.title = file.name;
+          image.src = this.result;
+          preview.appendChild(image);
+        }, false);
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+    if (files) {
+      [].forEach.call(files, readAndPreview);
+    }
+  }
+
+  document.querySelector('#image-input').addEventListener("change", previewImages);
+</script>
+
+<%- include('../layouts/footer.ejs') %>

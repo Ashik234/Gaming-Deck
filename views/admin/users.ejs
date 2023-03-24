@@ -1,0 +1,55 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+
+<main id="main" class="main">
+        <h4 class="card-title">Users</h4>
+        <p>Home | Users</p>
+        <div class="card">
+            <div class="table-responsive px-2">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone No</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% userdatas.forEach((x,index)=>{ %>
+                            <tr>
+                                <td scope="row"><%= index+1 %></td>
+                                <td><%= x.firstname %></td>
+                                <td><%= x.email %></td>
+                                <td><%= x.mobilenumber %></td>
+                                <% if(x.status){%>
+                                    <td class="text-success">Active</td>
+                                    <%}else {%>
+                                    <td class="text-danger">DeActive</td>
+                                <%}%>
+
+                                <% if(x.status){%>
+                                    <td>
+                                        <button type="button" class="btn btn-primary "><a class="text-decoration-none text-white"
+                                             href="/admin/action/<%= x._id %>">Block</a></button>
+                                    </td>
+                                    <%}else {%>
+                                        <td>
+                                            <button type="button" class="btn btn-warning "><a class="text-decoration-none text-white"
+                                                 href="/admin/action/<%= x._id %>">UnBlock</a></button>
+                                        </td>
+                                <%}%>
+                            </tr>
+                        <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</main>
+
+
+<%- include('../layouts/footer.ejs') %>

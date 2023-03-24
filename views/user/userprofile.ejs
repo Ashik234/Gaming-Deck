@@ -1,0 +1,69 @@
+<%- include('../layouts/user/header.ejs') %>
+<%- include('../layouts/user/navbar.ejs') %>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4 mt-4">
+        <div class="card-body">
+          <img src="https://th.bing.com/th/id/OIP.bJpr9jpclIkXQT-hkkb1KQHaHa?w=180&h=181&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="User Image" class="img-fluid rounded-circle mb-3">
+          <button type="button" class="btn btn-sm btn-primary  btn-block"><a class="text-decoration-none text-white" href="/editprofile">Edit Profile</a></button>
+          <button type="button" class="btn btn-sm btn-primary  btn-block"><a class="text-decoration-none text-white" href="/viewaddress">Manage Address</a></button>
+          <button type="button" class="btn btn-sm btn-primary  btn-block mt-3"><a  class="text-decoration-none text-white" href="/orders">Orders</a></button>
+          <button type="button" class="btn btn-sm btn-primary  btn-block mt-3"><a  class="text-decoration-none text-white" href="/changepassword">Change Password</a></button>
+          <div class="mt-3" style="border: 1px solid #ccc; padding: 10px; width: 200px;">
+            <h3 style="text-align: center; margin-top: 0;">Wallet</h3>
+            <% if (userData.wallet) { %>
+            <p style="text-align: center; font-size: 16px; font-weight: bold;">Amount: ₹<%= userData.wallet %></p>
+            <button type="button" class="btn btn-sm btn-primary  btn-block mt-3"><a  class="text-decoration-none text-white" href="/wallethistory">Wallet History</a></button>
+            <% } else { %>
+              <p style="text-align: center; font-size: 16px; font-weight: bold;">Amount: ₹0</p>
+              <% } %>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-8 mb-4 mt-4">
+      <div class="card">
+        <div class="card-header text-white">
+          <h3>Profile</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="string" id="name" class="form-control" value="<%= userData.firstname %>" readonly>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" value="<%= userData.email %>" readonly>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="number" id="phone" class="form-control" value="<%= userData.mobilenumber %>" readonly>
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <div class="card address-box">
+                  <div class="card-body">
+                    <p><%= userData.address[0].name %></p>
+                    <p><%= userData.address[0].housename %>, <%= userData.address[0].street %></p>
+                    <p><%= userData.address[0].district %>, <%= userData.address[0].state %></p>
+                    <p><%= userData.address[0].pincode %>, <%= userData.address[0].country %></p>
+                    <p>Phone: <%= userData.address[0].phone %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<%- include('../layouts/user/footer.ejs') %>

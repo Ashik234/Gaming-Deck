@@ -1,0 +1,25 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+    <h2>Edit Brand</h2>
+    <p>Brand | Edit Brand</p>
+<form action="" method="post">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Brand</label>
+      <input type="string" name="brand" class="form-control" id="exampleInputEmail1"
+      value="<%= branddata.brand %>">
+    </div>
+    <div class="form-group mt-3">
+      <label for="exampleInputPassword1">Description</label>
+      <input type="string" name="description" class="form-control" id="exampleInputPassword1"
+      value="<%= branddata.description %>">
+    </div>
+    <% if(typeof message!=="undefined"){%>
+      <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+    <%}%>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</main>
+<%- include('../layouts/footer.ejs') %>

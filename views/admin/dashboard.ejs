@@ -1,0 +1,254 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Total Sales </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><%= orderData %></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <h5 class="card-title">Weekly Revenue </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <% if(weeklyRevenue == "") {%>
+                        <h6>0</h6>
+                        <% }else { %>
+                      <h6><%=weeklyRevenue%></h6>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                  <h5 class="card-title">Customers </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><%= userData %></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Customers Card -->
+
+            <!-- Reports -->
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <section>
+                    <div class="row">
+                      <h1>Sales</h1>
+                      <div class="col-lg-8  mt-5 mb-5 " >
+                    <canvas id="myChartsales" style="width:100%;max-width:900px"></canvas>
+                      </div>
+                      <div class="col-lg-4  mt-5 mb-5 ">
+                        <canvas id="myChartpie" style="width:100%;max-width:600px"></canvas>
+                      </div>
+                  </div>
+                  </section>
+                </div>
+              </div>
+            </div><!-- End Reports -->
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+            <div class="row">
+              <div class="col-lg-8 mt-5 mb-5">
+            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            </div>
+            </div>
+            </div>
+              </div>
+
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% userOrder.forEach((x,index)=>{ %>
+                      <tr>
+                        <th scope="row"><a href="#"><%= index+1 %></a></th>
+                        <td><%= x.userId.firstname%></td>
+                        <td><% x.product.forEach((element)=>{ %>
+                          <%= element.productId.name %><br>
+                          <%})%></td>
+                        <td><% x.product.forEach((element)=>{ %>
+                          <%= element.singleTotal %><br>
+                          <%})%></td>
+                          <% if(x.status== "Delivered"){%>
+                          <td><span class="badge bg-success"><%= x.status%></span></td>
+                            <%}else if(x.status== "Cancelled") {%>
+                          <td><span class="badge bg-danger"><%= x.status%></span></td>
+                            <%} else if (x.status == 'Confirmed'){%>
+                          <td><span class="badge bg-secondary"><%= x.status%></span></td>
+                            <%}else if (x.status == 'Returned'){%>
+                          <td><span class="badge bg-warning"><%= x.status%></span></td>
+                            <%}else { %>
+                          <td><span class="badge bg-primary"><%= x.status%></span></td>
+                          <% } %>
+                      </tr>
+                      <%})%> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Preview</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Revenue</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"><a href="#"><img src="/admin/img/product-1.jpg" alt=""></a></th>
+                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
+                        <td>$64</td>
+                        <td class="fw-bold">124</td>
+                        <td>$5,828</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!-- End Top Selling -->
+          </div>
+        </div><!-- End Left side columns -->
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  <script>
+    var xValues = ["<%=date[0]%>","<%=date[1]%>","<%=date[2]%>","<%=date[3]%>","<%=date[4]%>","<%=date[5]%>","<%=date[6]%>"];
+    new Chart("myChartsales", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [ { 
+          data: ["<%=sales[0]%>","<%=sales[1]%>","<%=sales[2]%>","<%=sales[3]%>","<%=sales[4]%>","<%=sales[5]%>","<%=sales[6]%>"],
+          borderColor: "green",
+          fill: false
+        }]
+      },
+      options: {
+        legend: {display: false}
+      }
+    });
+    </script>
+
+    <!-- pie -->
+<script>
+  var xValues = ["Online payment", "Cash on Delivery","Wallet"];
+  var yValues = ["<%=UPI%>", "<%=COD%>","<%=WALLET%>"];
+  var barColors = [
+  "#2b5797",
+    "#00aba9",
+    "#000000" 
+  ];
+  new Chart("myChartpie", {
+    type: "pie",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Revenue"
+      }
+    }
+  });
+  </script>
+  <script>
+    var xValues = ["Confirmed","Delivered","Shipped","Cancelled","Returned"," "];
+    var yValues =["<%=confirmed%>","<%=delivered%>","<%=shipped%>","<%=cancelled%>","<%=returned%>","0"];
+    var barColors = ["orange", "green","blue","red","purple"];
+    new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: "Order Status"
+        }
+      }
+    });
+    </script>
+
+<%- include('../layouts/footer.ejs') %>

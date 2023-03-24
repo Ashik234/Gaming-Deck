@@ -1,0 +1,25 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+    <h2>Edit Banner</h2>
+    <p>Banner | Edit Banner</p>
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Banner</label>
+      <input type="string" name="banner" class="form-control"
+      value="<%=bannerdata.banner %>">
+    </div>
+    <div class="form-group">
+      <label for="">Image</label>
+      <input multiple type="file" name="image" class="form-control" >
+        <img src="/productimages/<%= bannerdata.image %>" alt="" width="50px" height="50px">
+      </div>
+    <% if(typeof message!=="undefined"){%>
+      <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+      <%}%>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</main>
+<%- include('../layouts/footer.ejs') %>

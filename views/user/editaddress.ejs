@@ -1,0 +1,86 @@
+<%- include('../layouts/user/header.ejs') %>
+<%- include('../layouts/user/navbar.ejs') %> 
+
+<div class="form-box">
+    <div class="container mt-4 mb-4">
+      <h2>Edit Address</h2>
+      <form action="" method="post">
+        <style>
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        </style>
+        <% userData.address.forEach((x)=>{ %>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="string" class="form-control" id="name" name="name"
+          value="<%= x.name %>">
+        </div>
+        <div class="form-group">
+          <label for="housename">House Name:</label>
+          <input type="string" class="form-control" id="housename" name="housename"
+          value="<%= x.housename %>">
+        </div>
+        <div class="form-group">
+          <label for="street">Street:</label>
+          <input type="string" class="form-control" id="street" name="street"
+          value="<%= x.street %>">
+        </div>
+        <div class="form-group">
+          <label for="district">District:</label>
+          <input type="string" class="form-control" id="district" name="district"
+          value="<%= x.district %>">
+        </div>
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input type="string" class="form-control" id="state" name="state"
+          value="<%= x.state %>">
+        </div>
+        <div class="form-group">
+          <label for="pincode">Pincode:</label>
+          <input type="number" class="form-control" id="pincode" name="pincode" min="1"
+          value="<%= x.pincode %>">
+        </div>
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <input type="string" class="form-control" id="country" name="country" 
+          value="<%= x.country %>">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <input type="number" class="form-control" id="phone" name="phone" min="1"
+          value="<%= x.phone %>">
+        </div>
+        <% if(typeof message!=="undefined"){%>
+          <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+        <%}%>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      <%})%>
+      </form>
+    </div>
+  </div>
+<%- include('../layouts/user/footer.ejs') %>
+  
+  <style>
+    .form-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+  
+  </style>

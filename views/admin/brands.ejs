@@ -1,0 +1,51 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+    <div class="col-lg-12">
+        <h4 class="card-title">Brand</h4>
+        <p>Home | Brand</p>
+        <div class="card">
+            <div class="card-header">
+                <button type="button" class="btn btn-primary"><a class="text-decoration-none text-white" href="/admin/addbrand">Add Brand</a></button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Brand</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% branddata.forEach((x,index)=>{ %>
+                            <tr>
+                                <th scope="row"><%= index+1 %></th>
+                                <td><%= x.brand %></td>
+                                <td><%= x.description %></td>
+                            <td>
+                                <a class="" href="/admin/editbrand/<%=x._id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <!-- <a class="" href="/admin/brand/<%= x._id %>"><i class="fa-solid fa-trash" style="color: red;"></i></a>-->
+                                <% if(x.status){%>
+                                    <button type="button" class="btn btn-sm btn-warning "><a class="text-decoration-none text-white"
+                                        href="/admin/brandaction/<%= x._id %>">UnList</a></button>
+                                <%}else{%>
+                                    <button type="button" class="btn btn-sm btn-primary "><a class="text-decoration-none text-white"
+                                        href="/admin/brandaction/<%= x._id %>">List</a></button>
+                                <%}%>    
+                            </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+</main>
+
+<%- include('../layouts/footer.ejs') %>

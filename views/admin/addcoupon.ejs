@@ -1,0 +1,42 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+    <h2>Add Coupon</h2>
+    <p>Coupon | Add Coupon</p>
+<form action="" method="post">
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      </style>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Coupon</label>
+      <input type="string" name="coupon" class="form-control" id="exampleInputEmail1">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Expiry Date</label>
+      <input type="date" name="expiry" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Minimum Amount</label>
+        <input type="Number" name="minimumamount" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Max Discount</label>
+        <input type="Number" name="maxdiscount" class="form-control" id="exampleInputPassword1" min="1" inputmode="numeric">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Percentage</label>
+        <input type="Number" name="percentage" class="form-control" id="exampleInputPassword1">
+    </div>
+    <% if(typeof message!=="undefined"){%>
+      <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+      <%}%>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</main>
+<%- include('../layouts/footer.ejs') %>

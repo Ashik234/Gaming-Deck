@@ -1,0 +1,41 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+ <!--================Home Banner Area =================-->
+ <main id="main" class="main">
+    <section class="banner_area">
+      <div class="banner_inner d-flex align-items-center">
+        <div class="container">
+          <div class="banner_content d-md-flex justify-content-between align-items-center">
+            <div class="mb-3 mb-md-0">
+              <h2>Product Details</h2>
+            </div>
+            <div class="page_link">
+              <a href="index.html">Products</a>
+              <a href="single-product.html">Product Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/productimages/<%=productData.image[0]%>" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+          <h2 class="mb-3"><%= productData.name %></h2>
+          <p class="mb-2"><strong>Price:</strong> <%= productData.price %></p>
+          <p class="mb-2"><strong>Category:</strong> <%= productData.category.category %></p>
+          <p class="mb-4"><strong>Description:</strong> <%= productData.description %></p>
+          <p class="mb-4"><strong>Brand:</strong> <%= productData.brand.brand %></p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!--================End Single Product Area =================-->
+
+<%- include('../layouts/footer.ejs') %>

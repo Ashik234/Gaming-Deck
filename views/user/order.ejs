@@ -1,0 +1,86 @@
+<%- include('../layouts/user/header.ejs') %>
+<%- include('../layouts/user/navbar.ejs') %> 
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4 fw-bold">Order History</h2>
+    <table class="table table-striped" id="reloadDiv">
+      <thead class="thead-dark" >
+        <tr>
+          <th>No</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Delivery Address</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% orderData.forEach((x,index)=>{ %>
+            <tr>
+                <td scope="row"><%= index+1 %></td>
+
+                <td><% x.product.forEach((element)=>{ %>
+                <%= element.productId.name %><br>
+                <%})%></td>
+                
+                <td><% x.product.forEach((element)=>{ %>
+                  <%= element.quantity %><br>
+                  <%})%></td>   
+
+                <td><%= x.total %></td>
+                <td><%= x.deliveryaddress %></td>
+                <td><%= x.status %></td>
+                <td>
+                  <% if(x.status == 'Delivered'){%>
+                  <button onclick="ReturnOrder('<%= x._id %>')" type="button" class="btn btn-sm btn-danger">
+                    <a class="text-decoration-none text-white" href="">Return</a>
+                    <%} else if (x.status == 'Returned'){%>
+                  
+                  <%} else if(x.status == "Confirmed"){%>
+                    <button onclick="CancelOrder('<%= x._id %>')" type="button" class="btn btn-sm btn-danger">
+                      <a class="text-decoration-none text-white" href="">Cancel</a>
+                  </button>
+                    <%}%>
+                </td>
+            </tr>
+          <%})%> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<script>
+    function CancelOrder(orId){
+      $.ajax({
+        url:'/cancelorder',
+        data:{
+          orderId:orId
+        },
+        method:'post',
+        success:(response)=>{
+          $('#reloadDiv').load('/orders #reloadDiv')
+        console.log(response);
+        }
+      })
+}
+</script>
+
+<script>
+    function ReturnOrder(orId){
+      $.ajax({
+        url:'/returnorder',
+        data:{
+          orderId:orId
+        },
+        method:'post',
+        success:(response)=>{
+          $('#reloadDiv').load('/orders #reloadDiv')
+        console.log(response);
+         }
+      })
+}
+</script>
+  
+
+<%- include('../layouts/user/footer.ejs') %>

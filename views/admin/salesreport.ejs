@@ -1,0 +1,60 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+<main id="main" class="main">
+  <div class="col-lg-12">
+    <h4 class="card-title">Sales Report</h4>
+    <p>Home | Sales Report</p>
+    <div class="card">
+      <div class="card-header">
+        <button type="button" class="btn btn-primary float-right" onclick="window.print()">Print Report</button>
+      </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Date</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Payment Method</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <% ss.forEach((order, i) => { %>
+                        <tr>
+                          <td><%= i + 1 %></td>
+                          <td><%= order.date.toLocaleDateString() %></td>
+                          <td>
+                            <% order.product.forEach((product) => { %>
+                              <%= product.productId.name %><br>
+                            <% }) %>
+                          </td>
+                          <td>
+                            <% order.product.forEach((product) => { %>
+                              <%= product.quantity %><br>
+                            <% }) %>
+                          </td>
+                          <td>
+                            <% order.product.forEach((product) => { %>
+                              <%= product.singleTotal %><br>
+                            <% }) %>
+                          </td>
+                          <td><%= order.paymentType %></td>
+                          <td><%= order.total %></td>
+                        </tr>
+                      <% }) %>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+
+<%- include('../layouts/footer.ejs') %>

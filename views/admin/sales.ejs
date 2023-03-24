@@ -1,0 +1,50 @@
+<%- include('../layouts/header.ejs') %>
+<%- include('../layouts/navbar.ejs') %>
+<%- include('../layouts/sidebar.ejs') %>
+
+
+<main id="main" class="main">
+<div class="page-wrapper">
+    <div class="container-fluid">
+      <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+          <h3 class="text-themecolor">Sales Report</h3>
+        </div>
+      </div>
+      <div class="col-lg-12 col-xlg-12 col-md-12">
+        <div class="card">
+          <!-- Tab panes -->
+          <div class="card-body">
+            <form action="/admin/salesreport" class="form-horizontal form-material" method="post" id="report"  >
+          </div> <div id="alertpasswordUser1" class="alert alert-danger" role="alert" style="display: none;">
+          </div>
+              <div class="form-group">
+                <label class="col-md-12">From- Date</label>
+                <div class="col-md-8">
+                    <input type="date" name="from" id="from"  class="form-control form-control-line" >
+                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-12">To Date</label>
+                <div class="col-md-8">
+                    <input type="date" name="to" id="to"  class="form-control form-control-line">
+                  </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <% if(typeof message !=='undefined' ){ %>
+                    <h5 style="color: rgb(206, 47, 47);">
+                        <%= message %>
+                    </h5>
+                    <% } %>
+                  <button type='submit' class="btn btn-success">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Column -->
+    </div>
+</main>
+<%- include('../layouts/footer.ejs') %>
