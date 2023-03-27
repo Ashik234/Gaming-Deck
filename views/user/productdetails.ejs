@@ -13,7 +13,7 @@
             <p>Very us move be blessed multiply night</p>
           </div>
           <div class="page_link">
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <a href="single-product.html">Product Details</a>
           </div>
         </div>
@@ -152,7 +152,7 @@
 
   <!--================Product Description Area =================-->
   <section class="product_description_area">
-    <div class="container">
+    <!-- <div class="container">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
           <a
@@ -706,38 +706,39 @@
           </div>
         </div>
       </div>
-    </div>
-    <script>
-      function addToCart(proId,proPrice){
-        $.ajax({
-          url:'/addtocart',
-          data:{
-            productId:proId,
-            price:proPrice
-          },
-          method:"post",
-          success:(response)=>{
-            console.log(response);
-            
-          }
-        })
-      }
-    </script>
-    <script>
-      function addToWishlist(proId){
-        $.ajax({
-          url:'/addtowishlist',
-          data:{
-            productId:proId
-          },
-          method:"post",
-          success:(response)=>{
-            console.log(response);
-          }
-        })
-      }
-    </script>
+    </div> -->
   </section>
+
+  <script>
+    function addToCart(proId,proPrice){
+      $.ajax({
+        url:'/addtocart',
+        data:{
+          productId:proId,
+          price:proPrice
+        },
+        method:"post",
+        success:(response)=>{
+          console.log(response);
+          
+        }
+      })
+    }
+  </script>
+  <script>
+    function addToWishlist(proId){
+      $.ajax({
+        url:'/addtowishlist',
+        data:{
+          productId:proId
+        },
+        method:"post",
+        success:(response)=>{
+          console.log(response);
+        }
+      })
+    }
+  </script>
   <!--================End Product Description Area =================-->
 
 

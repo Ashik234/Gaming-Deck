@@ -16,13 +16,15 @@
       </thead>
       <tbody>
         <% orderData.forEach((x,index)=>{ %>
-            <% if(x.status != "Return Requested" && x.status != "Request Rejected"){%>
+          <% if(x.paymentType != "COD"){%>
+            <% if(x.status == "Cancelled" || x.status == "Returned"){%>
         <tr>
           <td><%=x.date.toLocaleString({ day: '2-digit', month: '2-digit', year: '2-digit' }) %></td>
           <td><%=x.total %></td>
           <td><%= x.paymentType %></td>
           <td><%=x.status %></td>
         </tr>
+        <%}%>
         <%}%>
         <%})%> 
       </tbody>

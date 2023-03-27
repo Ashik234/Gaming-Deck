@@ -31,7 +31,7 @@
                                     <td><%= x.total %></td>
                                     <td><%= x.date.toLocaleString({ day: '2-digit', month: '2-digit', year: '2-digit' }) %></td>
                                     <td><%= x.status %></td>
-                                    <% if(x.status == 'Delivered'|| x.status == 'Cancelled' || x.status == 'Returned' || x.status == 'Request Rejected'|| x.status == 'Processing'){%>
+                                    <% if(x.status == 'Delivered'|| x.status == 'Cancelled' || x.status == 'Returned' || x.status == 'Request Rejected'|| x.status == 'Payment Failed'){%>
                                         <td><%= x.status%></td>
                                         <%}else if(x.status == 'Confirmed'){%>
                                                 <td>
