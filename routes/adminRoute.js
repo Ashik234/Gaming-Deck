@@ -74,7 +74,7 @@ admin_route.get('/deleteimg/:imgid/:prodid',auth.isLogin,productcontroller.delet
 admin_route.post("/addproduct",upload.array('image'),productcontroller.newproduct)
 admin_route.post('/editproduct/:id', upload.array('image'), productcontroller.updateproduct)
 admin_route.post('/editproduct/updateimage/:id',upload.array('image'),productcontroller.updateImage)
-
+    
 // Brand Route GET
 admin_route.get('/brand',auth.isLogin,brandcontroller.brand)
 admin_route.get("/addbrand",auth.isLogin,brandcontroller.addbrand)

@@ -6,7 +6,6 @@ const app = express()
 const $ = require('jquery');
 const session = require("express-session")
 
-
 app.use(session({
     secret:'mysession',
     resave:false,

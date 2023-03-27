@@ -17,7 +17,8 @@ const placeOrder = async (req, res) => {
     try {
         if (req.session.user_id) {
                 const userdata = await User.findOne({ _id: req.session.user_id })
-                const orderdata = req.body;
+            const orderdata = req.body;
+            console.log(req.body);
                 let productarray = []
             
                 if (!Array.isArray(orderdata.productId)) {
