@@ -3,33 +3,36 @@
 
 
 
+
 <div class="container">
-    <h1>Wallet History</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Payment Method</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% orderData.forEach((x,index)=>{ %>
-          <% if(x.paymentType != "COD"){%>
-            <% if(x.status == "Cancelled" || x.status == "Returned"){%>
-        <tr>
-          <td><%=x.date.toLocaleString({ day: '2-digit', month: '2-digit', year: '2-digit' }) %></td>
-          <td><%=x.total %></td>
-          <td><%= x.paymentType %></td>
-          <td><%=x.status %></td>
-        </tr>
-        <%}%>
-        <%}%>
-        <%})%> 
-      </tbody>
-    </table>
-  </div>
+  <h2 class="text-center">Wallet History</h2>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orderData.forEach((x,index)=>{ %>
+        <% if(x.paymentType != "COD"){%>
+          <% if(x.status == "Cancelled" || x.status == "Returned"){%>
+      <tr>
+        <td><%=x.date.toLocaleString({ day: '2-digit', month: '2-digit', year: '2-digit' }) %></td>
+        <td><%=x.total %></td>
+        <td><%= x.paymentType %></td>
+        <td><%=x.status %></td>
+      </tr>
+      <%}%>
+      <%}%>
+      <%})%> 
+    </tbody>
+  </table>
+</div>
+
+
 
 
 

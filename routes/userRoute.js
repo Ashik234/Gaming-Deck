@@ -31,14 +31,14 @@ user_route.get('/category/:id', usercontroller.loadCategory)
 user_route.get('/brands/:id', usercontroller.loadBrand)
 user_route.get('/profile',auth.isLogin, usercontroller.userProfile)
 user_route.get('/editprofile', usercontroller.editProfile)
-user_route.get('/viewaddress', usercontroller.viewAddress)
+user_route.get('/viewaddress', auth.isLogin,usercontroller.viewAddress)
 user_route.get('/addaddress', usercontroller.addAddress)
 user_route.get('/editaddress/:id', usercontroller.editAddress)
 user_route.get('/changepassword', usercontroller.loadChangepassword)
 user_route.get('/forgotpassword', usercontroller.loadForgotPassword)
 user_route.get('/wallethistory', auth.isLogin,usercontroller.loadWalletHistory)
-user_route.get('/orders',auth.isLogin,usercontroller.loadOrder)
-
+user_route.get('/orders', auth.isLogin, usercontroller.loadOrder)
+user_route.get('/orderdetails/:id',auth.isLogin,usercontroller.loadOrderDetails)
 
 // USER ROUTE POST
 user_route.post("/signup",usercontroller.verifySignup)
@@ -54,7 +54,6 @@ user_route.post("/addingaddress", usercontroller.addingaddress)
 user_route.post('/search', usercontroller.search)
 user_route.post('/changepassword', usercontroller.changePassword)
 
-
 // Cart GET
 user_route.get('/cart', auth.isLogin, cartcontroller.loadCart)
 user_route.get('/checkout',auth.isLogin, cartcontroller.loadCheckout)
@@ -67,14 +66,13 @@ user_route.post('/deletecart', cartcontroller.deletCart)
 // Wishlist GET
 user_route.get('/wishlist',auth.isLogin, wishlistcontroller.loadWishlist)
 
-
 // Wishlist POST
 user_route.post('/addtowishlist', wishlistcontroller.addWishlist)
 user_route.post('/wishtocart', wishlistcontroller.addtoCart)
 user_route.post('/deletewish', wishlistcontroller.deletWish)
 
 // Order GET
-user_route.get('/ordersuccess',auth.isLogin,ordercontroller.loadOrderSuccess)
+user_route.get('/ordersuccess', auth.isLogin, ordercontroller.loadOrderSuccess)
 
 // Order POST
 user_route.post('/placeorder',ordercontroller.placeOrder)

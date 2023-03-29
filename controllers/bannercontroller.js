@@ -21,7 +21,10 @@ const addbanner= async(req,res)=>{
 }
 
 // Adding A Banner
-const newbanner = async(req,res)=>{
+const newbanner = async (req, res) => {
+    if(req.body.banner.trim() == "" ){
+        res.render('addbanner',{message:"All fields are required"})
+    }
     try {
         const banner = new Banner({
             banner : req.body.banner,

@@ -23,8 +23,14 @@ const loadAddCoupon = async (req, res) => {
 
 // Adding New Coupon
 const newCoupon = async (req, res) => {
-    if(req.body.coupon == "" || req.body.expiry == "" || req.body.minimumamount == '' ||req.body.maxdiscount == '' || req.body.percentage == ''){
+    let bodyData = req.body.coupon
+        bodyData = bodyData.trim()
+    let coupData = bodyData.toUpperCase()
+    const allData = await Coupon.findOne({coupon:coupData})
+    if(req.body.coupon.trim() == "" || req.body.expiry == "" || req.body.minimumamount == '' ||req.body.maxdiscount == '' || req.body.percentage == ''){
         res.render('addcoupon',{message:"All Fields Are Required"})
+    } else if (allData){
+        res.render("addcoupon",{message:"This Coupon already exists"})
     }
     try {
         const coupon = new Coupon({

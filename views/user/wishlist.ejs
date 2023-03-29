@@ -61,7 +61,7 @@
                   </div>
                 </td>
                 <td>
-                  <h5> <%= x.product.price %></h5>
+                  <h5>₹<%= x.product.price %></h5>
                   
                 </td>
                 <td>
@@ -94,14 +94,14 @@
               icon: 'success',
               title:"Product Added To Cart",
               showconfirmButton:false ,
-              timer:1500,
+              timer:1000,
           })
           }else{
             Swal.fire({
             icon: 'info',
             title:"Product Already In The Cart",
             showConfirmButton: false,
-            timer:1500,
+            timer:1000,
           })
         }
       },

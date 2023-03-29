@@ -23,7 +23,7 @@
           </div>
           <%bannerData.forEach((x)=> { %>
               <div class="carousel-item">
-                 <a href="/allproducts"><img style="height: 450px;" class="d-block w-100 " src="/Productimages/<%= x.image%>"
+                 <a href="/allproducts"><img style="height: 450px;" class="d-block w-100 " src="/productimages/<%= x.image%>"
                   alt="First slide"></a> 
               </div>
               <% }) %>
@@ -167,10 +167,10 @@
                   <i class="ti-eye"></i>
                 </a>
                 <% if(typeof userData!=="undefined"){%>   
-                  <a  onclick="addToWishlist('<%= x._id %>')" href="#">
+                  <a  onclick="addToWishlist('<%= x._id %>')">
                     <i class="ti-heart"></i>
                   </a>
-                  <a onclick="addToCart('<%= x._id %>','<%= x.offerprice %>')" href="#">
+                  <a onclick="addToCart('<%= x._id %>','<%= x.offerprice %>')">
                     <i class="ti-shopping-cart"></i>
                   </a>
                 <% }else{ %>
@@ -206,6 +206,12 @@
           method:"post",
           success:(response)=>{
             console.log(response);
+            Swal.fire({
+            icon: 'success',
+            title: 'Added to Wishlist!',
+            text: 'Product added to the Wishlist.',
+            confirmButtonText: 'OK'
+         });
           }
         })
       }
@@ -223,6 +229,12 @@
       method:"post",
       success:(response)=>{
         console.log(response);
+        Swal.fire({
+        icon: 'success',
+        title: 'Added to cart!',
+        text: 'Product added to the cart.',
+        confirmButtonText: 'OK'
+       });
       }
     })
   }

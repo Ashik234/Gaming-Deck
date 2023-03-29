@@ -2,17 +2,17 @@
 <%- include('../layouts/navbar.ejs') %>
 <%- include('../layouts/sidebar.ejs') %>
 
+
+
+
 <main id="main" class="main">
   <div class="col-lg-12">
     <h4 class="card-title">Sales Report</h4>
     <p>Home | Sales Report</p>
     <div class="card">
-      <div class="card-header">
-        <button type="button" class="btn btn-primary float-right" onclick="window.print()">Print Report</button>
-      </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-responsive-sm">
+                <table class="table table-hover table-responsive-sm" id="example">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -48,7 +48,6 @@
                           <td><%= order.total %></td>
                         </tr>
                       <% }) %>
-                      
                     </tbody>
                 </table>
             </div>
@@ -56,5 +55,76 @@
     </div>
 </div>
 </main>
+
+<style>
+  .dataTables_wrapper .dt-buttons {
+      float: right;
+  }
+  
+  .dataTables_filter input[type="search"] {
+      float: right;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: #f9f9f9;
+      font-size: 14px;
+      width: 200px;
+  }
+  
+  .dt-button {
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      background-color: #4c63af;
+      color: white;
+      border: none;
+      margin-right: 10px;
+  }
+  
+  .dt-button:hover {
+      background-color: #2a51d1;
+  }
+  
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_paginate {
+      font-size: 14px;
+  }
+
+  .dataTables_wrapper .dataTables_paginate {
+    float: right;
+}
+  </style>
+  
+  <script>
+    $(document).ready(function() {
+      $('#example').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              { extend: 'csv', className: 'dt-button' },
+              { extend: 'pdf', className: 'dt-button' },
+              { extend: 'print', className: 'dt-button' },
+              { extend: 'excel', className: 'dt-button' }
+          ]
+      } );
+      $('.dataTables_filter input[type="search"]').css({
+          'float': 'right',
+          'border': '1px solid #ccc',
+          'border-radius': '5px',
+          'padding': '5px',
+          'background-color': '#f9f9f9'
+      });
+  } ); 
+  </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 <%- include('../layouts/footer.ejs') %>

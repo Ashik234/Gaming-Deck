@@ -31,13 +31,19 @@
                             <td>
                                 <a class="" href="/admin/editcategory/<%=x._id %>"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <!-- <a class="" href="/admin/category/<%= x._id %>"><i class="fa-solid fa-trash" style="color: red;"></i></a> -->
-                                <% if(x.status){%>
+                                <!-- <% if(x.status){%>
                                     <button type="button" class="btn btn-sm btn-warning "><a class="text-decoration-none text-white"
                                         href="/admin/categoryaction/<%= x._id %>">UnList</a></button>
                                 <%}else{%>
                                     <button type="button" class="btn btn-sm btn-primary "><a class="text-decoration-none text-white"
                                         href="/admin/categoryaction/<%= x._id %>">List</a></button>
-                                <%}%>
+                                <%}%> -->
+
+                                <% if (x.status) { %>
+                                        <button type="button" class="btn btn-sm btn-warning" onclick="confirmUnlist('<%= x._id %>')">UnList</button>
+                                <% } else { %>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="confirmlist('<%= x._id %>')">List</button>
+                                <% } %>
                             </td>
                             </tr>
                             <% }); %>
@@ -47,5 +53,37 @@
             </div>
         </div>
 </main>
-
+<script>
+    function confirmlist(id) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to list this Category.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, List Category!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/admin/categoryaction/' + id;
+            }
+        })
+    }
+    
+    function confirmUnlist(id) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to Unlist this Category.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Unlist Category!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/admin/categoryaction/' + id;
+            }
+        })
+    }
+    </script>
 <%- include('../layouts/footer.ejs') %>

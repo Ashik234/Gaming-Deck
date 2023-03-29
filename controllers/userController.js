@@ -17,7 +17,6 @@ const client = require("twilio")(accountsid,authtoken)
 // Load HomePage
 const loadHome = async(req,res)=>{
     try {
-
         const productdata = await Product.find({status:true})
         const bannerdata = await Banner.find()
         const categorydata = await Category.find({status:true})
@@ -85,22 +84,22 @@ const verifyLogin = async (req,res)=>{
  
 // Verifying The Signup Page
 const verifySignup = async(req,res)=>{
-        req.session.userdata = req.body
+    req.session.userdata = req.body
         const found = await User.findOne({email:req.body.email})
         if(found){
             res.render('usersignup',{message:"Username Already Exists"})
-        }else if(req.body.firstName == '' || req.body.lastName == ''||req.body.mobileNumber == ''||req.body.email == ''||req.body.password == '' ){
+        }else if(req.body.firstName == '' || req.body.mobileNumber == ''|| req.body.email == ''|| req.body.password == '' ){
             res.render('usersignup',{message:"All Fields Are Required"})
         }else{
             mobilenumber = req.body.mobileNumber
             try {
                 const otpResponse = await client.verify.v2
-                .services('VA07d1bfacd5efbdbbbfd060fd714c5a26')
+                .services('VA8add9ca93dd5317c04dac3f19513417d')
                 .verifications.create({
                     to: `+91${mobilenumber}`,
                     channel:'sms'
                 })
-                    res.render('otppage')
+                res.render('otppage')
             } catch (error) {
                 console.log(error.message);
             }
@@ -108,22 +107,22 @@ const verifySignup = async(req,res)=>{
 }
 
 // Verifying The OTP
-const verifyOtp = async(req,res)=>{
+const verifyOtp = async (req, res) => {
     const otp = req.body.otp;
     try{
         req.session.user
         const details = req.session.userdata
         const verifiedResponse = await client.verify.v2
-        .services('VA07d1bfacd5efbdbbbfd060fd714c5a26')
+        .services('VA8add9ca93dd5317c04dac3f19513417d')
         .verificationChecks.create({
             to :`+91${details.mobileNumber}`,
-            code:otp,
+            code: otp,
+            
         })
         if(verifiedResponse.status === 'approved'){
             details.password = await bcrypt.hash(details.password,10)
             const userdata = new User({
                 firstname: details.firstName,
-                lastname: details.lastName,
                 email: details.email,
                 password: details.password,
                 mobilenumber: details.mobileNumber
@@ -377,9 +376,9 @@ const addingaddress = async (req, res) => {
 const editAddress = async (req, res) => {
     try {
         const id = req.params.id
-        const user = req.session.user_id
-        const userdata = await User.findOne({'address._id':id },{'address.$':1})
-        res.render('editaddress',{userData:userdata})
+        const userdata = req.session.user_id
+        const user = await User.findOne({'address._id':id },{'address.$':1})
+        res.render('editaddress',{userData:userdata,User:user})
     } catch (error) {
         console.log(error.message);
     }
@@ -434,9 +433,20 @@ const deleteAddress = async(req,res)=>{
 const loadOrder = async (req, res) => {
     try {
         const id = req.session.user_id
-        const userdata = await User.find({_id:req.session.user_id})
+        const userdata = await User.findOne({_id:req.session.user_id})
         const orderdata = await Order.find({userId:id}).populate('product.productId').sort({date:-1})
         res.render('order',{userData:userdata,orderData:orderdata})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Load Order Details
+const loadOrderDetails = async (req, res) => {
+    try {
+        let id = req.params.id
+        const orderdata = await Order.findOne({_id:id}).populate('product.productId')
+        res.render('orderdetails',{orderData:orderdata})
     } catch (error) {
         console.log(error.message);
     }
@@ -489,10 +499,9 @@ const search = async(req, res)=> {
             const input = req.body.searched
             const result = new RegExp(input, 'i')
             const prod = await Product.find({ name: result,status:true }).populate('category')
-            const userData = await User.findOne({ _id: req.session.user_id })
             const categorydata = await Category.find({status:true})
             const branddata = await Brand.find({status:true})
-            res.render('allproducts',{productData:prod,userData:userData,categoryData: categorydata,brandData: branddata })
+            res.render('allproducts',{productData:prod,categoryData: categorydata,brandData: branddata })
         } 
     } catch (error) {
         console.log(error.message);     
@@ -558,8 +567,9 @@ const forgotpassword = async (req, res) => {
 const loadWalletHistory = async (req, res) => {
     try {
         const id = req.session.user_id
+        const  userdata = await User.findOne({ _id: req.session.user_id })
         const orderdata = await Order.find({ userId: id }).sort({date:-1})
-        res.render('wallet',{orderData:orderdata})
+        res.render('wallet',{orderData:orderdata,userData:userdata})
     } catch (error) {
         
     }
@@ -596,6 +606,7 @@ module.exports ={
     updateAddress,
     deleteAddress,
     loadOrder,
+    loadOrderDetails,
     cancelOrder,
     returnOrder,
     search,

@@ -138,10 +138,17 @@
               </button>
             </div>
             <div class="card_area">
+              <% if(typeof userData!=="undefined"){%>  
               <a  onclick="addToCart('<%= productData._id %>','<%= productData.offerprice %>')" class="main_btn" href="#">Add to Cart</a>
               <a onclick="addToWishlist('<%= productData._id %>')" class="icon_btn" href="#">
                 <i class="lnr lnr lnr-heart"></i>
               </a>
+              <% }else{ %>
+                <a href="/login" class="main_btn" href="#">Add to Cart</a>
+                <a href="/login" class="icon_btn" href="#">
+                <i class="lnr lnr lnr-heart"></i>
+              </a>
+              <% } %>
             </div>
           </div>
         </div>

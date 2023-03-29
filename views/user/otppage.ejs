@@ -4,7 +4,7 @@
     <div class="col-md-6">
       <div class="card" style="text-align: center;">
         <div class="card-body">
-          <h2 class="text-center mb-4">Enter your OTP</h2>
+          <h2 class="text-center mb-4">Enter Your OTP</h2>
           <% if(typeof message !=='undefined'){ %>
             <div class="alert alert-danger">
               <%= message %>
@@ -14,12 +14,7 @@
             <div class="form-group">
               <label for="otp" class="sr-only">OTP</label>
               <div class="input-group mb-3">
-                <input type="text" name="otp[]" id="otp1" class="form-control square-input" maxlength="1" required autofocus>
-                <input type="text" name="otp[]" id="otp2" class="form-control square-input" maxlength="1" required>
-                <input type="text" name="otp[]" id="otp3" class="form-control square-input" maxlength="1" required>
-                <input type="text" name="otp[]" id="otp4" class="form-control square-input" maxlength="1" required>
-                <input type="text" name="otp[]" id="otp4" class="form-control square-input" maxlength="1" required>
-                <input type="text" name="otp[]" id="otp4" class="form-control square-input" maxlength="1" required>
+                <input type="text" name="otp" id="otp" class="form-control square-input">
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-primary">Verify</button>
                 </div>

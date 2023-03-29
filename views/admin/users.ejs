@@ -32,17 +32,26 @@
                                     <td class="text-danger">DeActive</td>
                                 <%}%>
 
-                                <% if(x.status){%>
+                                <!-- <% if(x.status){%>
                                     <td>
                                         <button type="button" class="btn btn-primary "><a class="text-decoration-none text-white"
                                              href="/admin/action/<%= x._id %>">Block</a></button>
                                     </td>
                                     <%}else {%>
-                                        <td>
-                                            <button type="button" class="btn btn-warning "><a class="text-decoration-none text-white"
-                                                 href="/admin/action/<%= x._id %>">UnBlock</a></button>
-                                        </td>
-                                <%}%>
+                                    <td>
+                                        <button type="button" class="btn btn-warning "><a class="text-decoration-none text-white"
+                                             href="/admin/action/<%= x._id %>">UnBlock</a></button>
+                                    </td>
+                                <%}%> -->
+                                <% if (x.status) { %>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="confirmBlock('<%= x._id %>')">Block</button>
+                                    </td>
+                                <% } else { %>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning" onclick="confirmUnblock('<%= x._id %>')">Unblock</button>
+                                    </td>
+                                <% } %>
                             </tr>
                         <%})%>
                     </tbody>
@@ -50,6 +59,38 @@
             </div>
         </div>
 </main>
-
+<script>
+    function confirmBlock(id) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to block this user.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Block User!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/admin/action/' + id;
+            }
+        })
+    }
+    
+    function confirmUnblock(id) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to unblock this user.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Unblock User!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/admin/action/' + id;
+            }
+        })
+    }
+    </script>
 
 <%- include('../layouts/footer.ejs') %>

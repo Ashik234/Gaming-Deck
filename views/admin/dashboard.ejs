@@ -116,7 +116,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Customer</th>
                         <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
+                        <th scope="col">Total Price</th>
                         <th scope="col">Status</th>
                       </tr>
                     </thead>
@@ -128,9 +130,13 @@
                         <td><% x.product.forEach((element)=>{ %>
                           <%= element.productId.name %><br>
                           <%})%></td>
-                        <td><% x.product.forEach((element)=>{ %>
-                          <%= element.singleTotal %><br>
-                          <%})%></td>
+                          <td><% x.product.forEach((element)=>{ %>
+                            <%= element.quantity %><br>
+                            <%})%></td>
+                            <td><% x.product.forEach((element)=>{ %>
+                              <%= element.singleTotal %><br>
+                              <%})%></td>
+                        <td><%= x.total %><br></td>
                           <% if(x.status== "Delivered"){%>
                           <td><span class="badge bg-success"><%= x.status%></span></td>
                             <%}else if(x.status== "Cancelled") {%>

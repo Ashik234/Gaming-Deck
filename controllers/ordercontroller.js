@@ -15,8 +15,6 @@ var instance = new Razorpay({
 // Placing Order
 const placeOrder = async (req, res) => { 
     try {
-        if (req.session.user_id) {
-                const userdata = await User.findOne({ _id: req.session.user_id })
             const orderdata = req.body;
                 let productarray = []
             
@@ -89,11 +87,9 @@ const placeOrder = async (req, res) => {
                 const productdata = await order.save()
                 await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
                 
-                for (let i = 0; i < productarray.length; i++) {
-                    const product = await Product.findById(productarray[i].productId)
-                    product.stock = product.stock - productarray[i].quantity
-                    await product.save()
-                }
+                
+
+              
        
                 const latestOrder = await Order.findOne({}).sort({ date: -1 }).lean();
  
@@ -130,6 +126,13 @@ const placeOrder = async (req, res) => {
                 const productdata = await order.save()
                 await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
                 
+                const cartdeletion = await User.updateOne(
+                    { _id: req.session.user_id }, {
+                    $pull: { cart: { product: { $in: orderdata.productId } } },
+                    $set: { carttotalprice: 0 },
+                }
+                );
+
                 for (let i = 0; i < productarray.length; i++) {
                     const product = await Product.findById(productarray[i].productId)
                     product.stock = product.stock - productarray[i].quantity
@@ -140,8 +143,6 @@ const placeOrder = async (req, res) => {
                 const balance = userdata.wallet - req.body.total1;
                 const walletMinus = await User.updateOne({ _id: req.session.user_id },{ $set: { wallet: balance } });
                 res.json({ status: true })
-            }
-            
             }
     } catch (error) {
         console.log(error.message);
@@ -160,12 +161,6 @@ const PaymentVerified= async(req,res)=>{
        if(hmac==details['payment[razorpay_signature]']){
          const latestOrder = await Order.findOne({}).sort({ date: -1 }).lean();
            const change = await Order.updateOne({ _id: latestOrder._id }, { $set: { status: "Confirmed" } })
-           const cartdeletion = await User.updateOne(
-            { _id: req.session.user_id }, {
-            $pull: { cart: { product: { $in: orderdata.productId } } },
-            $set: { carttotalprice: 0 },
-        }
-        );
             res.json({status:true})
        }else{
          console.log("Fail");
@@ -182,9 +177,25 @@ const PaymentVerified= async(req,res)=>{
 // Load Order Success
 const loadOrderSuccess = async (req, res) => {
     try {
-        const userdata = await User.find({_id:req.session.user_id})
+        const userdata = await User.findOne({_id:req.session.user_id})
         const orderdata = await Order.findOne({ userId: req.session.user_id }).sort({ date: -1 }).lean().populate('product.productId')
-        res.render('success', {userData:userdata,orderData: orderdata })
+        
+        if(orderdata.paymentType == "UPI"){
+        const cartdeletion = await User.updateOne(
+            { _id: req.session.user_id }, {
+            $pull: { cart: { product: { $in: orderdata.productId } } },
+            $set: { carttotalprice: 0 },
+        }
+        );
+        let productarray = []
+        for (let i = 0; i < productarray.length; i++) {
+            const product = await Product.findById(productarray[i].productId)
+            product.stock = product.stock - productarray[i].quantity
+            await product.save()
+            }
+        }
+        res.render('success', { userData: userdata, orderData: orderdata })
+        
     } catch (error) {
         console.log(error.message);
     }
