@@ -94,7 +94,7 @@ const verifySignup = async(req,res)=>{
             mobilenumber = req.body.mobileNumber
             try {
                 const otpResponse = await client.verify.v2
-                .services('VA8add9ca93dd5317c04dac3f19513417d')
+                .services('VA107527624bafc0663f5e7722c5eb3ec5')
                 .verifications.create({
                     to: `+91${mobilenumber}`,
                     channel:'sms'
@@ -113,11 +113,10 @@ const verifyOtp = async (req, res) => {
         req.session.user
         const details = req.session.userdata
         const verifiedResponse = await client.verify.v2
-        .services('VA8add9ca93dd5317c04dac3f19513417d')
+        .services('VA107527624bafc0663f5e7722c5eb3ec5')
         .verificationChecks.create({
             to :`+91${details.mobileNumber}`,
             code: otp,
-            
         })
         if(verifiedResponse.status === 'approved'){
             details.password = await bcrypt.hash(details.password,10)
@@ -347,7 +346,6 @@ const newAddress = async (req, res) => {
 
 // Inserting New Address
 const addingaddress = async (req, res) => {
-    const id = req.session.user_id
     if(req.body.name.trim() == "" || req.body.housename.trim() == "" ||req.body.street.trim() == '' || req.body.district.trim() == "" || req.body.state.trim() == '' ||req.body.pincode.trim() == '' || req.body.country.trim() == '' ||req.body.phone.trim() == ''){
         res.render('addaddress',{message:"All fields are required"})
     }else{

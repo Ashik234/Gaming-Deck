@@ -55,7 +55,7 @@
           </div>
             <div class="cupon_area">
               <input type="text" placeholder="Enter coupon code" name="code" id="NAMEcode" style="width: 300px; ">
-                <a onclick="applyCoupon('<%= userData.carttotalprice %>', $('#NAMEcode').val())" class="tp_btn" href="#">Apply Coupon</a>
+                <a onclick="applyCoupon('<%= userData.carttotalprice %>', $('#NAMEcode').val())" class="tp_btn">Apply Coupon</a>
             </div>
           </div>
           
@@ -198,6 +198,9 @@
           </div>
         </form>
       </div>
+      <% if(typeof message!=="undefined"){%>
+        <h1 style ="font-size:16px;color:rgb(235, 18, 18);"><%=message %></h1>
+      <%}%>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" id="submitData"  class="btn btn-primary">Save changes</button>
@@ -237,6 +240,12 @@
                   icon: 'warning',
                   title: 'Address Required',
                   text: 'Please Select An Address.',
+              })
+            }else if(response.wallet){
+              Swal.fire({
+                  icon: 'warning',
+                  title: 'Wallet Amount ',
+                  text: 'Insufficiant Wallet Balance.',
               })
             }
         }

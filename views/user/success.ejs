@@ -21,10 +21,9 @@
               <div class="d-flex flex-row mb-4 pb-2">
                 <% orderData.product.forEach((x)=>{%>
                 <div class="flex-fill">
-                    
                   <h5 class="bold"><%= x.productId.name %></h5>
                   <p class="text-muted">Qt:<%= x.quantity %> item </p>
-                  <h4 class="mb-3"> ₹<%= x.singleTotal %> <span class="small text-muted"> via (<%= orderData.paymentType %>) </span></h4>
+                  <h4 class="mb-3"> ₹<%= orderData.total %> <span class="small text-muted"> via (<%= orderData.paymentType %>) </span></h4>
                   <p class="text-muted">Tracking Status on: <span class="text-body">11:30pm, Today</span></p>
                 </div>
                 <div>

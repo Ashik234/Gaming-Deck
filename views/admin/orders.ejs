@@ -42,10 +42,10 @@
                                                       </i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Shipped')">
+                                                      <a class="dropdown-item"  onclick="updateStatus('<%= x._id %>', 'Shipped')">
                                                         <i class="me-1"></i> Ship
                                                       </a>
-                                                      <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Delivered')">
+                                                      <a class="dropdown-item"  onclick="updateStatus('<%= x._id %>', 'Delivered')">
                                                         <i class="me-1"></i> Deliver
                                                       </a>
                                                     </div>
@@ -60,7 +60,7 @@
                                                     </i>
                                                   </button>
                                                   <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Delivered')">
+                                                    <a class="dropdown-item"  onclick="updateStatus('<%= x._id %>', 'Delivered')">
                                                       <i class="me-1"></i> Deliver
                                                     </a>
                                                   </div>
@@ -75,10 +75,10 @@
                                                   </i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Returned')">
+                                                  <a class="dropdown-item"  onclick="updateStatus('<%= x._id %>', 'Returned')">
                                                     <i class="me-1"></i> Approve
                                                   </a>
-                                                  <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Request Rejected')">
+                                                  <a class="dropdown-item"  onclick="updateStatus('<%= x._id %>', 'Request Rejected')">
                                                     <i class="me-1"></i> Reject
                                                   </a>
                                                 </div>
@@ -98,8 +98,6 @@
 </main>
 <script>
     function updateStatus(ordId,status){
-        console.log(ordId)
-        console.log(status);
       $.ajax({
         url:'/admin/updateStatus',
         data:{

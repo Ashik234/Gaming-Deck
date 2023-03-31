@@ -38,16 +38,14 @@ const placeOrder = async (req, res) => {
                 }
      
                 let method = req.body.paymentType
-            if (method == "COD") {
-                if (req.body.address == null) {
-                    res.json({address:true})
-                }
+        if (method == "COD") {
+            if (req.body.address == null) {
                 const status = req.body.paymentType == 'COD' ? 'Confirmed' : 'Pending'
                 const order = new Order({
                     userId: req.body.userId,
                     deliveryaddress: req.body.address,
                     product: productarray,
-                    total: req.body.total,
+                    total: req.body.total - req.body.discount1,
                     paymentType: req.body.paymentType,
                     orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
                     status: status,
@@ -68,17 +66,18 @@ const placeOrder = async (req, res) => {
                     await product.save()
                 }
                 res.json({ status: true })
-
-                // UPI     
-            } else if (method == "UPI") {
-                if (req.body.address == null) {
-                    res.json({address:true})
-                }
+            } else {
+                res.json({ address: true })
+            }
+            // UPI     
+        } else if (method == "UPI") {
+            if (req.body.address == null) {
+                const total = req.body.total - req.body.discount1
                 const order = new Order({
                     userId: req.body.userId,
                     deliveryaddress: req.body.address,
                     product: productarray,
-                    total: req.body.total,
+                    total: total,
                     paymentType: req.body.paymentType,
                     orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
                     status: "Payment Failed",
@@ -86,64 +85,68 @@ const placeOrder = async (req, res) => {
                 })
                 const productdata = await order.save()
                 await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
-                
-                
-
-              
        
                 const latestOrder = await Order.findOne({}).sort({ date: -1 }).lean();
  
                 if (latestOrder) {
                     let options = {
-                        amount: orderdata.total * 100,
+                        amount: total * 100,
                         currency: "INR",
                         receipt: "" + latestOrder._id
                     };
-                    instance.orders.create(options,function(err,order){
-                        res.json({viewRazorpay:true,order})  
+                    instance.orders.create(options, function (err, order) {
+                        res.json({ viewRazorpay: true, order })
                     });
                 } else {
                     console.log("Latest order not found.");
                     res.json({ viewRazorpay: false }); // or handle the error as per your requirement
                 }
+            }else {
+                    res.json({ address: true })
+                }
 
-                // WALLET
-            } else if (method == "WALLET") {
-                if (req.body.address == null) {
-                    res.json({address:true})
-                }
-                let userdata = await User.findOne({ _id: req.session.user_id });
-                const order = new Order({
-                    userId: req.body.userId,
-                    deliveryaddress: req.body.address,
-                    product: productarray,
-                    total: req.body.total,
-                    paymentType: req.body.paymentType,
-                    orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
-                    status: "Confirmed",
-                    discount: req.body.discount1
-                })
-                const productdata = await order.save()
-                await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
+            // WALLET
+        } else if (method == "WALLET") { 
+            let userdata = await User.findOne({ _id: req.session.user_id });
+            if (req.body.address == null) {
+                if (req.body.total <= userdata.wallet) {
+                    const order = new Order({
+                        userId: req.body.userId,
+                        deliveryaddress: req.body.address,
+                        product: productarray,
+                        total: req.body.total - req.body.discount1,
+                        paymentType: req.body.paymentType,
+                        orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
+                        status: "Confirmed",
+                        discount: req.body.discount1
+                    })
+                    const productdata = await order.save()
+                    await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
                 
-                const cartdeletion = await User.updateOne(
-                    { _id: req.session.user_id }, {
-                    $pull: { cart: { product: { $in: orderdata.productId } } },
-                    $set: { carttotalprice: 0 },
-                }
-                );
+                    const cartdeletion = await User.updateOne(
+                        { _id: req.session.user_id }, {
+                        $pull: { cart: { product: { $in: orderdata.productId } } },
+                        $set: { carttotalprice: 0 },
+                    }
+                    );
 
-                for (let i = 0; i < productarray.length; i++) {
-                    const product = await Product.findById(productarray[i].productId)
-                    product.stock = product.stock - productarray[i].quantity
-                    await product.save()
-                }
+                    for (let i = 0; i < productarray.length; i++) {
+                        const product = await Product.findById(productarray[i].productId)
+                        product.stock = product.stock - productarray[i].quantity
+                        await product.save()
+                    }
                 
-                // Reduce wallet balance
-                const balance = userdata.wallet - req.body.total1;
-                const walletMinus = await User.updateOne({ _id: req.session.user_id },{ $set: { wallet: balance } });
-                res.json({ status: true })
+                    // Reduce wallet balance
+                    const balance = userdata.wallet - req.body.total1;
+                    const walletMinus = await User.updateOne({ _id: req.session.user_id }, { $set: { wallet: balance } });
+                    res.json({ status: true })
+                } else {
+                    res.json({address: true})
+                }
+                } else {
+                res.json({ wallet: true })
             }
+        }
     } catch (error) {
         console.log(error.message);
     }
@@ -180,17 +183,16 @@ const loadOrderSuccess = async (req, res) => {
         const userdata = await User.findOne({_id:req.session.user_id})
         const orderdata = await Order.findOne({ userId: req.session.user_id }).sort({ date: -1 }).lean().populate('product.productId')
         
-        if(orderdata.paymentType == "UPI"){
+        if (orderdata.paymentType == "UPI") {
+            for (let i = 0; i < orderdata.product.length; i++) {
         const cartdeletion = await User.updateOne(
             { _id: req.session.user_id }, {
-            $pull: { cart: { product: { $in: orderdata.productId } } },
+            $pull: { cart: { product: { $in: orderdata.product[i].productId } } },
             $set: { carttotalprice: 0 },
         }
         );
-        let productarray = []
-        for (let i = 0; i < productarray.length; i++) {
-            const product = await Product.findById(productarray[i].productId)
-            product.stock = product.stock - productarray[i].quantity
+            const product = await Product.findById(orderdata.product[i].productId)
+            product.stock = product.stock - orderdata.product[i].quantity
             await product.save()
             }
         }

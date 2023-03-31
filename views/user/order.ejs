@@ -21,7 +21,6 @@
           <% orderData.forEach((x,index)=>{ %>
             <tr>
                 <td scope="row"><%= index+1 %></td>
-
                 <td><% x.product.forEach((element)=>{ %>
                 <%= element.productId.name %><br>
                 <%})%></td>
@@ -55,9 +54,20 @@
         </tr>
       </tbody>
     </table>
+
   </div>
 <script>
     function CancelOrder(orId){
+      Swal.fire({
+              title: 'Are you sure?',
+              text: "You wan't to Cancel!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, Cancel!'
+          }).then((result) => {
+                 if (result.isConfirmed) {
       $.ajax({
         url:'/cancelorder',
         data:{
@@ -67,13 +77,31 @@
         success:(response)=>{
           $('#reloadDiv').load('/orders #reloadDiv')
         console.log(response);
+        Swal.fire({
+            title: 'Cancelled!',
+            text: 'Order Cancelled',
+            icon: 'success',
+            showConfirmButton: false
+            })
         }
       })
+    }
+  })
 }
 </script>
 
 <script>
     function ReturnOrder(orId){
+      Swal.fire({
+              title: 'Are you sure?',
+              text: "You wan't to Return!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, Return!'
+          }).then((result) => {
+                 if (result.isConfirmed) {
       $.ajax({
         url:'/returnorder',
         data:{
@@ -83,6 +111,14 @@
         success:(response)=>{
           $('#reloadDiv').load('/orders #reloadDiv')
         console.log(response);
+        Swal.fire({
+            title: 'Requested!',
+            text: 'Return Requested',
+            icon: 'success',
+            showConfirmButton: false
+            })
+        }
+      })
          }
       })
 }

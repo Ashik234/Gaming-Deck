@@ -5,8 +5,7 @@ const loadCart = async (req, res) => {
     try {
         const  session = req.session.user_id
         const productData = await User.findOne({ _id: session }).populate("cart.product")
-        if (req.session.user_id) {
-            const session = req.session.user_id
+        if (session) {
             const userdata = await User.findOne({ _id: session })
             res.render('cart', { productdata: productData, userData: userdata })
         } else {

@@ -158,7 +158,8 @@ const userAction = async (req, res) => {
         id = req.params.id
         const userdata = await User.findOne({ _id: id })
         if (userdata.status) {
-            await User.updateOne({ _id: id },{$set:{status:false}})
+            await User.updateOne({ _id: id }, { $set: { status: false } })
+            req.session.user_id = null
         } else {
             await User.updateOne({ _id: id },{$set:{status:true}})
         }

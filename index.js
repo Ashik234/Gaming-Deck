@@ -6,10 +6,6 @@ const app = express()
 const $ = require('jquery');
 const session = require("express-session")
 
-const logger = require("morgan")
-
-app.use(logger("dev"))
-
 app.use(session({
     secret:'mysession',
     resave:false,

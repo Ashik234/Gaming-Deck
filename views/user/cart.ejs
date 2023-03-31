@@ -65,16 +65,15 @@
                 <td>
                   <h5>₹<%= x.product.offerprice %></h5>
                 </td>
-
                 <input type="hidden"  class="<%=x.product._id %>" value="<%=x.product.stock%>">
                 <td>
                   <div class="product_count">
                     <button onclick="AdjustQuantity('<%= x.product._id %>',1, '<%= x.product.offerprice %>')" class="increase items-count" type="button">
                       <i class="lnr lnr-chevron-up"></i>
                     </button>
-                    <span id="<%= x.product._id %>"><%= x.quantity %></span>
+                    <div id="<%= x.product._id %>"><%= x.quantity %></div>
                     <button onclick="AdjustQuantity('<%= x.product._id %>',-1, '<%=x.product.offerprice %>')" class="reduced items-count" type="button">
-                      <i class="lnr lnr-chevron-down"></i>
+                      <i  class="lnr lnr-chevron-down"></i>
                     </button>
                   </div>
                   <style>
@@ -93,8 +92,8 @@
                   }
                   </style>      
                 </td>
-                <td <%= x.product._id %> >
-                  <h5>₹<%= x.prototalprice %></h5>
+                <td  >
+                  <h5 class="<%= x.product._id %>">₹<%= x.prototalprice %></h5>
                 </td>
                 <td>
                   <button onclick="DeleteCart('<%= x.product._id %>')" type="button" class="btn btn-sm" style="color: red;"><span class="fa-solid fa-xmark"></span></button>
@@ -108,7 +107,7 @@
                   <h5>Subtotal</h5>
                 </td>
                 <td >
-                  <h5>₹<%= productdata.carttotalprice %></h5>
+                  <h5 id="total">₹<%= productdata.carttotalprice %></h5>
                 </td>
                 <td></td>
               </tr>
@@ -170,8 +169,8 @@
 
     <script>
       function AdjustQuantity (proId, count ,price){
-    let quantity = document.getElementById(proId).innerHTML
-    let stock= parseInt(document.getElementsByClassName(proId)[0].value) 
+      let quantity= parseInt(document.getElementById(proId).innerHTML) 
+      let stock= parseInt(document.getElementsByClassName(proId)[0].value) 
         count = parseInt(count)
         if(quantity <= 1 && count == -1){
           Swal.fire({
@@ -197,11 +196,10 @@
           },
           method:"post",
           success:(response)=>{
-            $('#reloadDiv').load('/cart #reloadDiv')
             console.log(response);
-            document.getElementById(proId).innerHTML = quantity + count
-            document.getElementsByClassName(proId)[0].innerHTML = response.prodsingleprice
+            document.getElementById(proId).innerHTML =quantity + count
             document.getElementById('total').innerHTML = response.sum
+            document.getElementsByClassName(proId)[1].innerHTML = response.prodsingleprice
           }
         })
         }

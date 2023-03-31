@@ -28,37 +28,23 @@
       <div class="row s_product_inner">
         <div class="col-lg-6">
           <div class="s_product_img">
-            <div
-              id="carouselExampleIndicators"
-              class="carousel slide"
-              data-ride="carousel"
-            >
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="0"
-                  class="active"
-                >
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
                   <img
                   class=" w-100 h-100"
                     src="/productimages/<%=productData.image[0]%> "
                     alt=""
                   />
                 </li>
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="1"
-                >
+                <li data-target="#carouselExampleIndicators" data-slide-to="1">
                   <img
                   class=" w-100 h-100"
                     src="/productimages/<%=productData.image[1]%> "
                     alt=""
                   />
                 </li>
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="2"
-                >
+                <li data-target="#carouselExampleIndicators" data-slide-to="2">
                   <img
                   class=" w-100 h-100"
                     src="/productimages/<%=productData.image[2]%> "
@@ -101,8 +87,7 @@
             <ul class="list">
               <li>
                 <a class="active" href="#">
-                  <span>Category</span>:<%= productData.category.category %></a
-                >
+                  <span>Category</span>: <%= productData.category.category %></a>
               </li>
               <li>
                 <a href="#"> <span>Availibility</span> : In Stock</a>
@@ -139,13 +124,13 @@
             </div>
             <div class="card_area">
               <% if(typeof userData!=="undefined"){%>  
-              <a  onclick="addToCart('<%= productData._id %>','<%= productData.offerprice %>')" class="main_btn" href="#">Add to Cart</a>
-              <a onclick="addToWishlist('<%= productData._id %>')" class="icon_btn" href="#">
+              <a  onclick="addToCart('<%= productData._id %>','<%= productData.offerprice %>')" class="main_btn" >Add to Cart</a>
+              <a onclick="addToWishlist('<%= productData._id %>')" class="icon_btn" >
                 <i class="lnr lnr lnr-heart"></i>
               </a>
               <% }else{ %>
-                <a href="/login" class="main_btn" href="#">Add to Cart</a>
-                <a href="/login" class="icon_btn" href="#">
+                <a href="/login" class="main_btn" >Add to Cart</a>
+                <a href="/login" class="icon_btn" >
                 <i class="lnr lnr lnr-heart"></i>
               </a>
               <% } %>
@@ -727,7 +712,12 @@
         method:"post",
         success:(response)=>{
           console.log(response);
-          
+          Swal.fire({
+          icon: 'success',
+          title: 'Added to cart!',
+          text: 'Product added to the cart.',
+          confirmButtonText: 'OK'
+       });
         }
       })
     }
@@ -742,6 +732,12 @@
         method:"post",
         success:(response)=>{
           console.log(response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Added to Wishlist!',
+            text: 'Product added to the Wishlist.',
+            confirmButtonText: 'OK'
+         });
         }
       })
     }
