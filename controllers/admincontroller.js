@@ -56,7 +56,7 @@ const loadDashboard = async(req,res)=>{
             {
               $match: {
                 date: {
-                  $gte: new Date(new Date().setDate(new Date().getDate() - 7))
+                  $gte: new Date(new Date().setDate(new Date().getDate() - 7)) 
                 }, status: {
                   $eq: "Delivered"
                 }

@@ -24,7 +24,7 @@ const addtoCart = async (req, res) => {
         proPrice = req.body.price
         const data = await User.findOne({ _id: userId, "cart.product": proId })
         if (data) {
-            res.json({success:true})
+            res.json({alreadycart:true})
         } else {
             const insert = await User.updateOne({ _id: userId },
                 { $push: { cart: { product: proId , quantity: 1, prototalprice:proPrice} } })

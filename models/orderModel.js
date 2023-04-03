@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default:Date.now()
+       
     },
     product: [{
         productId: {

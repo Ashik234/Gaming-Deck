@@ -700,28 +700,36 @@
       </div>
     </div> -->
   </section>
-
-  <script>
-    function addToCart(proId,proPrice){
-      $.ajax({
-        url:'/addtocart',
-        data:{
-          productId:proId,
-          price:proPrice
-        },
-        method:"post",
-        success:(response)=>{
-          console.log(response);
+<script>
+  function addToCart(proId,proPrice){
+    $.ajax({
+      url:'/addtocart',
+      data:{
+        productId:proId,
+        price:proPrice
+      },
+      method:"post",
+      success:(response)=>{
+        console.log(response);
+        if (response.alreadycart) {
           Swal.fire({
-          icon: 'success',
-          title: 'Added to cart!',
-          text: 'Product added to the cart.',
-          confirmButtonText: 'OK'
-       });
+            icon: 'warning',
+            title: 'Product already in cart!',
+            text: 'The product you are trying to add is already in the cart.',
+            confirmButtonText: 'OK'
+          });
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Added to cart!',
+            text: 'Product added to the cart.',
+            confirmButtonText: 'OK'
+          });
         }
-      })
-    }
-  </script>
+      }
+    })
+  }
+</script>
   <script>
     function addToWishlist(proId){
       $.ajax({

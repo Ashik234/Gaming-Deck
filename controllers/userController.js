@@ -521,8 +521,8 @@ const changePassword = async (req, res) => {
         const id = req.session.user_id
         const userdata = await User.findOne({ _id: id })
         console.log(req.body);
-        const oldvalue = req.body.old_password
-        const newp = req.body.new_password
+        const oldvalue = req.body.oldpassword
+        const newp = req.body.newpassword
         const confirm = req.body.confirm_password
         const passwordmatch = await bcrypt.compare(oldvalue,userdata.password)
         if (passwordmatch) {

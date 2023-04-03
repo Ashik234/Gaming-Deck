@@ -40,6 +40,8 @@ const placeOrder = async (req, res) => {
                 let method = req.body.paymentType
         if (method == "COD") {
             if (req.body.address == null) {
+                res.json({ address: true })
+            }
                 const status = req.body.paymentType == 'COD' ? 'Confirmed' : 'Pending'
                 const order = new Order({
                     userId: req.body.userId,
@@ -49,7 +51,8 @@ const placeOrder = async (req, res) => {
                     paymentType: req.body.paymentType,
                     orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
                     status: status,
-                    discount: req.body.discount1
+                    discount: req.body.discount1,
+                    date:Date.now()
                 })
                 const productdata = await order.save()
                 await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
@@ -66,12 +69,11 @@ const placeOrder = async (req, res) => {
                     await product.save()
                 }
                 res.json({ status: true })
-            } else {
-                res.json({ address: true })
-            }
             // UPI     
         } else if (method == "UPI") {
             if (req.body.address == null) {
+                res.json({ address: true })
+            }
                 const total = req.body.total - req.body.discount1
                 const order = new Order({
                     userId: req.body.userId,
@@ -81,11 +83,11 @@ const placeOrder = async (req, res) => {
                     paymentType: req.body.paymentType,
                     orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
                     status: "Payment Failed",
-                    discount: req.body.discount1
+                    discount: req.body.discount1,
+                    date:Date.now()
                 })
                 const productdata = await order.save()
                 await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
-       
                 const latestOrder = await Order.findOne({}).sort({ date: -1 }).lean();
  
                 if (latestOrder) {
@@ -101,14 +103,13 @@ const placeOrder = async (req, res) => {
                     console.log("Latest order not found.");
                     res.json({ viewRazorpay: false }); // or handle the error as per your requirement
                 }
-            }else {
-                    res.json({ address: true })
-                }
 
             // WALLET
         } else if (method == "WALLET") { 
             let userdata = await User.findOne({ _id: req.session.user_id });
             if (req.body.address == null) {
+                res.json({ address: true })
+            }
                 if (req.body.total <= userdata.wallet) {
                     const order = new Order({
                         userId: req.body.userId,
@@ -118,7 +119,8 @@ const placeOrder = async (req, res) => {
                         paymentType: req.body.paymentType,
                         orderId: `order_id_${uuidv4()}`, // generate a custom order ID using uuid
                         status: "Confirmed",
-                        discount: req.body.discount1
+                        discount: req.body.discount1,
+                        date:Date.now()
                     })
                     const productdata = await order.save()
                     await Coupon.updateOne({ coupon: req.body.code }, { $push: { userUsed: userId } })
@@ -127,8 +129,7 @@ const placeOrder = async (req, res) => {
                         { _id: req.session.user_id }, {
                         $pull: { cart: { product: { $in: orderdata.productId } } },
                         $set: { carttotalprice: 0 },
-                    }
-                    );
+                    })
 
                     for (let i = 0; i < productarray.length; i++) {
                         const product = await Product.findById(productarray[i].productId)
@@ -141,11 +142,9 @@ const placeOrder = async (req, res) => {
                     const walletMinus = await User.updateOne({ _id: req.session.user_id }, { $set: { wallet: balance } });
                     res.json({ status: true })
                 } else {
-                    res.json({address: true})
+                    res.json({wallet: true})
                 }
-                } else {
-                res.json({ wallet: true })
-            }
+              
         }
     } catch (error) {
         console.log(error.message);
@@ -182,22 +181,19 @@ const loadOrderSuccess = async (req, res) => {
     try {
         const userdata = await User.findOne({_id:req.session.user_id})
         const orderdata = await Order.findOne({ userId: req.session.user_id }).sort({ date: -1 }).lean().populate('product.productId')
-        
         if (orderdata.paymentType == "UPI") {
             for (let i = 0; i < orderdata.product.length; i++) {
-        const cartdeletion = await User.updateOne(
+            const cartdeletion = await User.updateOne(
             { _id: req.session.user_id }, {
             $pull: { cart: { product: { $in: orderdata.product[i].productId } } },
             $set: { carttotalprice: 0 },
-        }
-        );
+        });
             const product = await Product.findById(orderdata.product[i].productId)
             product.stock = product.stock - orderdata.product[i].quantity
             await product.save()
             }
         }
         res.render('success', { userData: userdata, orderData: orderdata })
-        
     } catch (error) {
         console.log(error.message);
     }
