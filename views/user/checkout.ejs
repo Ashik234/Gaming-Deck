@@ -57,6 +57,7 @@
               <input type="text" placeholder="Enter coupon code" name="code" id="NAMEcode" style="width: 300px; ">
                 <a onclick="applyCoupon('<%= userData.carttotalprice %>', $('#NAMEcode').val())" class="tp_btn">Apply Coupon</a>
             </div>
+            
           </div>
           
           <div class="col-lg-4">
@@ -126,9 +127,15 @@
                   <div class="check"></div>
 
                   <input type="radio" id="f-option6" name="paymentType" value="WALLET" />
-                  <label for="f-option6">Wallet </label>
+                  <label for="f-option6">Wallet  <strong class="balance">(Available Balance: ₹<%= userData.wallet %>)</strong></label>
                   <div class="check"></div>
               </div>
+              <style>
+                .balance {
+                color: rgb(0,123,255)
+                
+              }
+              </style>
               <br>
               <button class="main_btn" type="submit">Place Order</button>
             </div>

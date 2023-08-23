@@ -99,11 +99,16 @@ const adjustQuantity = async (req, res) => {
 // Loadng Checkout Page
 const loadCheckout = async (req, res) => {
     try {
-        const  session = req.session.user_id
+
+        const session = req.session.user_id
         const productData = await User.findOne({ _id: session }).populate("cart.product")
         const userdata = await User.findOne({ _id: session })
-            res.render('checkout',{productdata: productData, userData: userdata })
-    } catch (error) {
+        if (productData.cart.length !== 0) {
+            res.render('checkout', { productdata: productData, userData: userdata })
+        } else {
+            res.redirect("/")
+        }
+        } catch (error) {
         console.log(error.message);
     }
 }

@@ -518,17 +518,33 @@ const loadChangepassword = async (req, res) => {
 // Changing Password
 const changePassword = async (req, res) => {
     try {
-        const id = req.session.user_id
-        const userdata = await User.findOne({ _id: id })
-        console.log(req.body);
+        // const id = req.session.user_id
+        // const userdata = await User.findOne({ _id: id })
+        // console.log(req.body);
+        // const oldvalue = req.body.oldpassword
+        // const newp = req.body.newpassword
+        // const confirm = req.body.confirmpassword
+        // const passwordmatch = await bcrypt.compare(oldvalue,userdata.password)
+        // if (passwordmatch) {
+        //     if (newp == confirm) {
+        //         conf1 = await bcrypt.hash(confirm,10)
+        //         await User.updateOne({ _id:id }, { $set: { password: conf1 } })
+        //         res.redirect('/profile')
+        //     } else {
+        //         res.render('userprofile',{userData:userdata,message:"Password Didn't Match"})
+        //     }
+        // } else {
+        //     res.render('userprofile',{userData:userdata,message:"Old Password is incorrect"})
+        // }
+
+        const userdata = await User.findOne({ _id: req.session.user_id })
         const oldvalue = req.body.oldpassword
-        const newp = req.body.newpassword
-        const confirm = req.body.confirm_password
-        const passwordmatch = await bcrypt.compare(oldvalue,userdata.password)
+        const passwordmatch = await bcrypt.compare(oldvalue, userdata.password)
         if (passwordmatch) {
-            if (newp == confirm) {
-                conf1 = await bcrypt.hash(confirm,10)
-                await User.updateOne({ _id:id }, { $set: { password: conf1 } })
+            if (req.body.newpassword == req.body.confirmpassword) {
+                const newp = req.body.newpassword
+                conf1 = await bcrypt.hash(newp, 10)
+                await User.updateOne({ _id: req.session.user_id }, { $set: { password: conf1 } })
                 res.redirect('/profile')
             } else {
                 res.render('userprofile',{userData:userdata,message:"Password Didn't Match"})
@@ -561,7 +577,7 @@ const forgotpassword = async (req, res) => {
     }
 }
 
-//
+// Load Waller History
 const loadWalletHistory = async (req, res) => {
     try {
         const id = req.session.user_id
