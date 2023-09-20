@@ -56,7 +56,6 @@ admin_route.get("/category",auth.isLogin,categorycontroller.category)
 admin_route.get("/addcategory",auth.isLogin,categorycontroller.addcategory)
 admin_route.get('/editcategory/:id', auth.isLogin, categorycontroller.editcategory)
 admin_route.get("/categoryaction/:id", categorycontroller.categoryAction)
-// admin_route.get('/category/:id',auth.isLogin,categorycontroller.deletecategory)
 
 // Category Route POST
 admin_route.post("/addcategory",categorycontroller.newcategory)
@@ -66,7 +65,6 @@ admin_route.post("/editcategory/:id",categorycontroller.updatecategory)
 admin_route.get("/products",auth.isLogin,productcontroller.product)
 admin_route.get("/addproduct",auth.isLogin,productcontroller.addproduct)
 admin_route.get("/editproduct/:id",auth.isLogin,productcontroller.editproduct)
-// admin_route.get("/products/:id", auth.isLogin, productcontroller.deleteproduct)
 admin_route.get("/productaction/:id", productcontroller.productAction)
 admin_route.get('/deleteimg/:imgid/:prodid',auth.isLogin,productcontroller.deleteImage)
 
@@ -80,7 +78,6 @@ admin_route.get('/brand',auth.isLogin,brandcontroller.brand)
 admin_route.get("/addbrand",auth.isLogin,brandcontroller.addbrand)
 admin_route.get('/editbrand/:id', auth.isLogin, brandcontroller.editbrand)
 admin_route.get("/brandaction/:id", brandcontroller.brandAction)
-// admin_route.get('/brand/:id', auth.isLogin, brandcontroller.deletebrand)
 
 // Brand Route POST
 admin_route.post("/addbrand",brandcontroller.newbrand)
